@@ -6,7 +6,7 @@
 ## LSTM
 - $f_t = \sigma(W_f \ \cdot \ [h_{t-1}, x_t] \ + \ b_i)$
 - $i_t = \sigma(W_i \ \cdot \ [h_{t-1}, x_t] \ + \ b_f)$
-- $\tilde{C}_t = tanh(W_C \ \cdot \ [h_{t-1}, x_t] \ + \ b_C)$
+- $\tilde C_t = tanh(W_C \ \cdot \ [h_{t-1}, x_t] \ + \ b_C)$
 - $C_t = f_t \times C_{t-1} \ + \ i_t \times \tilde{C}_t$
 - $o_t = \sigma(W_o \ \cdot \ [h_{t-1}, x_t] \ + \ b_o)$
 - $h_t = o_t \times tanh(C_t)$
