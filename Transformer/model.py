@@ -5,10 +5,11 @@ from Decoder import Decoder
 
 
 class Transformer(nn.Module):
-    def __init__(self, d_model, d_ff, num_heads, n_layers, s_voca_len, t_voca_len, max_len, prob, s_pad_idx, t_pad_idx, device):
+    def __init__(self, d_model, d_ff, num_heads, n_layers, s_voca_len, t_voca_len, s_max_len, t_max_len, prob, s_pad_idx, t_pad_idx, device):
         super(Transformer, self).__init__()
-        self.encoder = Encoder(d_model, d_ff, num_heads, n_layers, s_voca_len, max_len, prob, device)
-        self.decoder = Decoder(d_model, d_ff, num_heads, n_layers, t_voca_len, max_len, prob, device)
+        self.device = device
+        self.encoder = Encoder(d_model, d_ff, num_heads, n_layers, s_voca_len, s_max_len, prob, device)
+        self.decoder = Decoder(d_model, d_ff, num_heads, n_layers, t_voca_len, t_max_len, prob, device)
         self.s_pad_idx = s_pad_idx
         self.t_pad_idx = t_pad_idx
         self.linear = nn.Linear(d_model, t_voca_len)
@@ -28,8 +29,8 @@ class Transformer(nn.Module):
         t_pad_mask = t_pad_mask.unsqueeze(1).unsqueeze(2)
         # shape : (b_s, 1, 1, seq_len)
         t_len = trg.size(1)
-        t_sub_mask = torch.tril(torch.ones((t_len, t_len))).bool()  # 하부 삼각행렬
-        t_mask = t_pad_mask & t_sub_mask  # <PAD>의 경우 행렬 전체를 False 로 처리
+        t_sub_mask = torch.tril(torch.ones((t_len, t_len))).bool().to(self.device)  # 하부 삼각행렬
+        t_mask = t_pad_mask & t_sub_mask  # <PAD>의 경우 행렬 전체를 False로 처리
 
         return t_mask
 
