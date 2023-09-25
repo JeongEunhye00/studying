@@ -13,7 +13,7 @@ from validation import validation
 from evaluate import evaluate
 from Sentiment_classification import SentimentCLS
 from dataset.vocab import Vocabulary
-from dataset.IMDB_dataset import IMDBDataset
+from dataset.IMDB.IMDB_dataset import IMDBDataset
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
